@@ -50,8 +50,14 @@ export default class Service {
       const upperLeft = prediction.annotations.leftEyeLower0
       const leftEAR = this.#getEAR(upperLeft, lowerLeft)
 
-      // True if the eye is closed
-      const blinked = leftEAR <= EAR_THRESHOLD && rightEAR <= EAR_THRESHOLD
+      let blinked
+      if (leftEAR <= EAR_THRESHOLD){ 
+        blinked = 'left'
+      }
+      if (rightEAR <= EAR_THRESHOLD){ 
+        (blinked == 'left') ? blinked = 'Both' : blinked = 'Right'
+      }
+
       if (!blinked) continue
       if(!shouldRun()) continue
       return blinked
